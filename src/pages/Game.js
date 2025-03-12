@@ -1,9 +1,14 @@
 import React from 'react';
+import Header from '../components/Header';
+import Board from '../components/Board';
 
 function Game() {
-    return (<div>
-        <p>Game</p>
-    </div> );
+    return (
+    <div>
+        <Header />
+        <Board />
+    </div> 
+    );
 }
 
 export default Game;

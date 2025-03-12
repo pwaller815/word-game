@@ -19,7 +19,7 @@ const styles = {
     mainMenu: {
         padding: "3rem",
         display: "flex",
-        height: "80vh",
+        height: "85vh",
         flexDirection: "column",
         justifyContent: "start",
         alignItems: "center",
@@ -40,7 +40,27 @@ const styles = {
         width: "9rem",
         height: "3rem",
         borderRadius: "15px"
-    }
+    },
+    // Game
+    board: {
+        padding: "3rem",
+        display: "flex",
+        height: "85vh",
+        flexDirection: "column",
+        justifyContent: "start",
+        alignItems: "center",
+        gap: "12rem",
+        background: "grey",
+    },
+    gridBoard: {
+        display: "grid",
+        gridTemplateColumns: "5rem 5rem 5rem 5rem 5rem",
+    },
+    gridItem: {
+        fontSize: "5rem",
+        alignText: "center",
+        border: "1rem solid black",
+    },
 }
 
 export default styles;
