@@ -54,7 +54,7 @@ const styles = {
     },
     gridBoard: {
         display: "grid",
-        gridTemplateColumns: "5rem 5rem 5rem 5rem 5rem",
+        gridTemplateColumns: "5rem 5rem 5rem 5rem",
     },
     gridItem: {
         fontSize: "5rem",
