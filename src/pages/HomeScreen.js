@@ -5,7 +5,6 @@ import MainMenu from '../components/MainMenu';
 function HomeScreen() {
     return ( 
         <div>
-            <Header />
             <MainMenu />
         </div>
     );

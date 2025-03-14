@@ -5,7 +5,6 @@ import Board from '../components/Board';
 function Game() {
     return (
     <div>
-        <Header />
         <Board />
     </div> 
     );
