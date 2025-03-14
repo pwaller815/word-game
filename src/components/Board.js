@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 function Board() {
   const length = 3;
   const [characters, setCharacters] = useState([]);
-  const [currentBoard, setCurrentBoard] = useState(0);
+  const [colors, setColors] = useState([]);
 
   const [isDragging, setIsDragging] = useState(false);
   const [activeDiv, setActiveDiv] = useState(null);
@@ -17,7 +17,7 @@ function Board() {
   const handleMouseDown = (e, index) => {
     setIsDragging(true);
     setCurrentString((prevState) => ({
-      word: characters[currentBoard][index],
+      word: characters[index],
       indexes: [index],
     }));
     setActiveDiv(index);
@@ -26,7 +26,7 @@ function Board() {
 
   const handleMouseMove = (e) => {
     if (isDragging) {
-      characters[currentBoard].forEach((char, index) => {
+      characters.forEach((char, index) => {
         const divElement = document.getElementById(`div-${index}`);
         const rect = divElement.getBoundingClientRect();
         if (
@@ -41,7 +41,8 @@ function Board() {
               word: prevState.word + char,
               indexes: [...prevState.indexes, index],
             }));
-            document.querySelector("#div-" + index).style.background = "#95d5b2";
+            document.querySelector("#div-" + index).style.background =
+              "#95d5b2";
           }
         }
       });
@@ -52,7 +53,7 @@ function Board() {
     setIsDragging(false);
 
     currentString.indexes.forEach((index) => {
-      document.querySelector("#div-" + index).style.background = "#40916c";
+      document.querySelector("#div-" + index).style.background = colors[index];
     });
 
     setCurrentString({
@@ -105,25 +106,32 @@ function Board() {
       ["N", "Z", "E", "V", "A", "D"],
     ];
 
-    function printBoards(characters) {
-      for (let i = 0; i < length; i++) {
-        console.log("BOARD #" + i);
-        let index = 0;
-        for (let j = 0; j < 4; j++) {
-          console.log(
-            characters[i][index] +
-              " " +
-              characters[i][++index] +
-              " " +
-              characters[i][++index] +
-              " " +
-              characters[i][++index]
-          );
-          index++;
-        }
-        console.log("\n");
-      }
-    }
+    const dieColors = [
+      getComputedStyle(document.documentElement).getPropertyValue("--neon-one"),
+      getComputedStyle(document.documentElement).getPropertyValue("--neon-two"),
+      getComputedStyle(document.documentElement).getPropertyValue("--neon-three"),
+      getComputedStyle(document.documentElement).getPropertyValue("--neon-four"),
+    ];
+
+    // function printBoards(characters) {
+    //   for (let i = 0; i < length; i++) {
+    //     console.log("BOARD #" + i);
+    //     let index = 0;
+    //     for (let j = 0; j < 4; j++) {
+    //       console.log(
+    //         characters[i][index] +
+    //           " " +
+    //           characters[i][++index] +
+    //           " " +
+    //           characters[i][++index] +
+    //           " " +
+    //           characters[i][++index]
+    //       );
+    //       index++;
+    //     }
+    //     console.log("\n");
+    //   }
+    // }
 
     function shuffleArray(array) {
       for (let i = array.length - 1; i > 0; i--) {
@@ -133,27 +141,24 @@ function Board() {
       return array;
     }
 
-    function generateBoards() {
+    function generateBoard() {
       let characters = [];
+      let colors = [];
       let shuffled = structuredClone(die);
-      for (let i = 0; i < length; i++) {
-        characters[i] = [];
-        shuffleArray(shuffled);
-        for (let j = 0; j < 16; j++) {
-          let character = shuffled[j][Math.floor(Math.random() * 6)];
-          characters[i][j] = character;
-        }
+      shuffleArray(shuffled);
+      for (let i = 0; i < 16; i++) {
+        let character = shuffled[i][Math.floor(Math.random() * 6)];
+        let color = dieColors[Math.floor(Math.random() * 4)];
+        characters[i] = character;
+        colors[i] = color;
       }
-      return characters;
+      setCharacters(characters);
+      setColors(colors);
     }
 
     function timer() {
-      let currentBoard = 0;
-
       const interval = setInterval(() => {
-        setCurrentBoard(currentBoard + 1);
-        currentBoard++;
-        console.log("New board: " + currentBoard);
+        setCharacters(shuffleArray(characters));
       }, 5000);
 
       setTimeout(() => {
@@ -161,10 +166,9 @@ function Board() {
       }, (length - 1) * 5000);
     }
 
-    const newCharacters = generateBoards();
-    setCharacters(newCharacters);
+    generateBoard();
     // timer();
-    printBoards(newCharacters);
+    // printBoards(newCharacters);
   }, []);
 
   return (
@@ -172,15 +176,19 @@ function Board() {
       <div style={styles.currentStringContainer}>
         <div style={styles.currentString}>{currentString.word}</div>
       </div>
-      <div onMouseMove={handleMouseMove} style={styles.gridBoard} className="gridBoard">
-        {characters[currentBoard] ? (
-          characters[currentBoard].map((character, index) => {
+      <div
+        onMouseMove={handleMouseMove}
+        style={styles.gridBoard}
+        className="gridBoard"
+      >
+        {characters ? (
+          characters.map((character, index) => {
             return (
               <div
                 key={index}
                 id={`div-${index}`}
                 onMouseDown={(e) => handleMouseDown(e, index)}
-                style={styles.gridItem}
+                style={{...styles.gridItem, backgroundColor: colors[index] || "red"}}
               >
                 {character}
               </div>

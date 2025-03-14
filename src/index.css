@@ -1,3 +1,12 @@
+:root {
+  --background: #04090f;
+  --board: #0b1522;
+  --neon-one: #04e762;
+  --neon-two: #f5b700;
+  --neon-three: #dc0073;
+  --neon-four: #008bf8;
+}
+
 * {
   box-sizing: border-box;
 }

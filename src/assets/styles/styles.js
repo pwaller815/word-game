@@ -1,3 +1,6 @@
+const backgroundColor = getComputedStyle(document.documentElement).getPropertyValue("--background");
+const boardColor = getComputedStyle(document.documentElement).getPropertyValue("--board");
+
 const styles = {
     // Header
     header: {
@@ -50,7 +53,7 @@ const styles = {
         justifyContent: "center",
         alignItems: "center",
         gap: "5vh",
-        background: "#081c15",
+        background: backgroundColor,
     },
     currentStringContainer: {
         height: "1rem",
@@ -62,7 +65,7 @@ const styles = {
     },
     gridBoard: {
         borderRadius: "1rem",
-        background: "#2d6a4f",
+        background: boardColor,
         padding: "0.7vw",
         display: "grid",
         gridTemplateColumns: "repeat(4, 1fr)",
@@ -72,14 +75,13 @@ const styles = {
         minWidth: "450px",
     },
     gridItem: {
-        background: "#40916c",
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
         borderRadius: "0.5rem",
         fontSize: "max(4vw, 3rem)",
         color: "#d8f3dc",
-        border: "max(0.4vw, 0.4rem) #1b4332",
+        border: "max(0.4vw, 0.4rem) " + backgroundColor,
         userSelect: "none",
         cursor: "pointer",
         aspectRatio: "1 / 1",
